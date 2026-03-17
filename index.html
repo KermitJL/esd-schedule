@@ -761,11 +761,11 @@ const response = await fetch('ESD2026.xlsx');
 const arrayBuffer = await response.arrayBuffer();
 const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
 
-        const evolveRaw  = getSheetArray(workbook, 'evolve April 15 - 19');
+        const evolveRaw  = getSheetArray(workbook, 'Evolve April 15 - 19');
         const plieRaw     = getSheetArray(workbook, 'Plie Prep April 29 - May 3');
         const abstractRaw = getSheetArray(workbook, 'Abstract May 21-24');
 
-        const evolve  = parseEventSheet(evolveRaw,  'evolve');
+        const evolve  = parseEventSheet(evolveRaw,  'Evolve');
         const plie     = parseEventSheet(plieRaw,     'Plie Prep');
         const abstract = parseEventSheet(abstractRaw, 'Abstract');
 
@@ -1125,7 +1125,7 @@ function renderTimelineTab() {
         if (selectedTimelineEvent !== 'all' && event.eventName !== selectedTimelineEvent) return;
 
         const meta = EVENT_META[event.eventName] || {};
-        const isevolve = event.eventName === 'Evolve';
+        const isEvolve = event.eventName === 'Evolve';
         const totalDances = event.isPlaceholder ? 0 :
             event.days.reduce((a, d) => a + d.dances.filter(x => x.type === 'dance').length, 0);
 
@@ -1170,7 +1170,7 @@ function renderTimelineTab() {
                             '<span></span>' +
                             '</div>';
 
-                        if (isevolve && item.awardDescriptions && item.awardDescriptions.length > 0) {
+                        if (isEvolve && item.awardDescriptions && item.awardDescriptions.length > 0) {
                             item.awardDescriptions.forEach(desc => {
                                 html += '<div class="award-tl-row">' +
                                     '<span></span><span></span>' +
