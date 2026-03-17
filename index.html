@@ -757,8 +757,9 @@ function buildDatabase(events) {
 // ─── LOAD DATA ───────────────────────────────────────────────────────────────
 async function loadData() {
     try {
-        const response = await window.fs.readFile('/data/ESD2026.xlsx');
-        const workbook = XLSX.read(response, { type: 'array' });
+const response = await fetch('ESD2026.xlsx');
+const arrayBuffer = await response.arrayBuffer();
+const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
 
         const evoloveRaw  = getSheetArray(workbook, 'Evolove April 15 - 19');
         const plieRaw     = getSheetArray(workbook, 'Plie Prep April 29 - May 3');
