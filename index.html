@@ -183,7 +183,7 @@
         }
 
         /* Selected states per event */
-        .filter-chip.sel-evolove {
+        .filter-chip.sel-evolve {
             background: rgba(75, 191, 191, 0.15);
             color: var(--teal-dark);
             border-color: var(--teal);
@@ -260,7 +260,7 @@
             padding: 16px 20px;
             display: flex; align-items: flex-start; gap: 12px;
         }
-        .event-header.evolove  { background: linear-gradient(135deg, var(--teal-dark), var(--teal)); }
+        .event-header.evolve  { background: linear-gradient(135deg, var(--teal-dark), var(--teal)); }
         .event-header.plie     { background: linear-gradient(135deg, var(--purple-dark), var(--purple)); }
         .event-header.abstract { background: linear-gradient(135deg, var(--charcoal), var(--charcoal-light)); }
         .event-header.danceworks { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
@@ -309,7 +309,7 @@
             transition: background 0.15s;
         }
         .day-header:hover { background: #ebebeb; }
-        .day-header.evolove-day  { border-left: 4px solid var(--teal); }
+        .day-header.evolve-day  { border-left: 4px solid var(--teal); }
         .day-header.plie-day     { border-left: 4px solid var(--purple); }
         .day-header.abstract-day { border-left: 4px solid var(--charcoal); }
         .day-header.danceworks-day { border-left: 4px solid var(--gold); }
@@ -489,8 +489,8 @@ let dancerEventFilter = {};
 
 // ─── EVENT METADATA ─────────────────────────────────────────────────────────
 const EVENT_META = {
-    'Evolove': {
-        icon: '🌊', cls: 'evolove', accent: '', dayHeaderCls: 'evolove-day', selCls: 'sel-evolove',
+    'evolve': {
+        icon: '🌊', cls: 'evolve', accent: '', dayHeaderCls: 'evolve-day', selCls: 'sel-evolve',
         date: 'April 15–19, 2026', venue: 'Winsport', address: '151 Canada Olympic Rd SW, Calgary'
     },
     'Plie Prep': {
@@ -507,7 +507,7 @@ const EVENT_META = {
     }
 };
 
-const EVENT_ORDER = ['Evolove', 'Plie Prep', 'Danceworks', 'Abstract'];
+const EVENT_ORDER = ['evolve', 'Plie Prep', 'Danceworks', 'Abstract'];
 
 // ─── NAME NORMALIZATION ─────────────────────────────────────────────────────
 function toProperCase(str) {
@@ -761,11 +761,11 @@ const response = await fetch('ESD2026.xlsx');
 const arrayBuffer = await response.arrayBuffer();
 const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
 
-        const evoloveRaw  = getSheetArray(workbook, 'Evolove April 15 - 19');
+        const evolveRaw  = getSheetArray(workbook, 'evolve April 15 - 19');
         const plieRaw     = getSheetArray(workbook, 'Plie Prep April 29 - May 3');
         const abstractRaw = getSheetArray(workbook, 'Abstract May 21-24');
 
-        const evolove  = parseEventSheet(evoloveRaw,  'Evolove');
+        const evolve  = parseEventSheet(evolveRaw,  'evolve');
         const plie     = parseEventSheet(plieRaw,     'Plie Prep');
         const abstract = parseEventSheet(abstractRaw, 'Abstract');
 
@@ -778,7 +778,7 @@ const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
             isPlaceholder: true
         };
 
-        const allEvents = [evolove, plie, danceworks, abstract];
+        const allEvents = [evolve, plie, danceworks, abstract];
 
         DB = buildDatabase(allEvents);
 
@@ -825,7 +825,7 @@ function formatDayHeader(dayStr) {
 // ─── EVENT HEADER HTML ───────────────────────────────────────────────────────
 function buildEventHeader(evName, badgeText) {
     const meta = EVENT_META[evName] || {};
-    return '<div class="event-header ' + (meta.cls || 'evolove') + '">' +
+    return '<div class="event-header ' + (meta.cls || 'evolve') + '">' +
         '<div class="event-icon">' + (meta.icon || '🎭') + '</div>' +
         '<div class="event-title-block">' +
         '<h2>' + evName + '</h2>' +
@@ -842,7 +842,7 @@ function buildEventFilterChips(filterState) {
     const chips = DB.events.map(ev => {
         const meta = EVENT_META[ev.eventName] || {};
         const isOn = filterState[ev.eventName] !== false;
-        const selCls = isOn ? (meta.selCls || 'sel-evolove') : 'unselected';
+        const selCls = isOn ? (meta.selCls || 'sel-evolve') : 'unselected';
         const checkmark = isOn ? '✓' : '';
         return '<div class="filter-chip ' + selCls + '" onclick="toggleDancerFilter(\'' + ev.eventName.replace(/'/g, "\\'") + '\')">' +
             '<span class="chip-check">' + checkmark + '</span>' +
@@ -973,7 +973,7 @@ function renderDancerResults(dancerName) {
         const { event, days } = byEvent[evName];
         const meta = EVENT_META[evName] || {};
         const accent = meta.accent || '';
-        const dayHeaderCls = meta.dayHeaderCls || 'evolove-day';
+        const dayHeaderCls = meta.dayHeaderCls || 'evolve-day';
         const totalEvDances = Object.values(days).reduce((a, d) => a + d.length, 0);
 
         html += '<div class="event-section">' +
@@ -1080,7 +1080,7 @@ function renderDanceResults(danceName) {
         const { dayName, dayDate } = formatDayHeader(e.day);
 
         html += '<div class="event-section">' +
-            '<div class="event-header ' + (meta.cls || 'evolove') + '">' +
+            '<div class="event-header ' + (meta.cls || 'evolve') + '">' +
             '<div class="event-icon">' + (meta.icon || '🎭') + '</div>' +
             '<div class="event-title-block">' +
             '<h2>' + e.event.eventName + (isSpecial ? ' <span style="font-size:0.8rem;opacity:0.85">· Purpose Showcase</span>' : '') + '</h2>' +
@@ -1100,13 +1100,13 @@ function renderDanceResults(danceName) {
 function renderTimelineTab() {
     // Build timeline filter chips
     const tlChips = [
-        '<div class="filter-chip ' + (selectedTimelineEvent === 'all' ? 'sel-evolove' : 'unselected') + '" onclick="setEventFilter(\'all\')">' +
+        '<div class="filter-chip ' + (selectedTimelineEvent === 'all' ? 'sel-evolve' : 'unselected') + '" onclick="setEventFilter(\'all\')">' +
         '<span class="chip-check">' + (selectedTimelineEvent === 'all' ? '✓' : '') + '</span>All Events</div>'
     ];
     DB.events.forEach(ev => {
         const meta = EVENT_META[ev.eventName] || {};
         const isActive = selectedTimelineEvent === ev.eventName;
-        const selCls = isActive ? (meta.selCls || 'sel-evolove') : 'unselected';
+        const selCls = isActive ? (meta.selCls || 'sel-evolve') : 'unselected';
         tlChips.push(
             '<div class="filter-chip ' + selCls + '" onclick="setEventFilter(\'' + ev.eventName.replace(/'/g, "\\'") + '\')">' +
             '<span class="chip-check">' + (isActive ? '✓' : '') + '</span>' +
@@ -1125,7 +1125,7 @@ function renderTimelineTab() {
         if (selectedTimelineEvent !== 'all' && event.eventName !== selectedTimelineEvent) return;
 
         const meta = EVENT_META[event.eventName] || {};
-        const isEvolove = event.eventName === 'Evolove';
+        const isevolve = event.eventName === 'evolve';
         const totalDances = event.isPlaceholder ? 0 :
             event.days.reduce((a, d) => a + d.dances.filter(x => x.type === 'dance').length, 0);
 
@@ -1142,7 +1142,7 @@ function renderTimelineTab() {
                 const isSpecial = dayObj.isSpecial;
                 const { dayName, dayDate } = formatDayHeader(dayObj.day);
                 const dayId = 'tl-' + (event.eventName + dayObj.day).replace(/\W+/g, '-');
-                const headerCls = isSpecial ? 'special-day' : (meta.dayHeaderCls || 'evolove-day');
+                const headerCls = isSpecial ? 'special-day' : (meta.dayHeaderCls || 'evolve-day');
                 const danceCount = dayObj.dances.filter(d => d.type === 'dance').length;
 
                 html += '<div class="day-section">' +
@@ -1170,7 +1170,7 @@ function renderTimelineTab() {
                             '<span></span>' +
                             '</div>';
 
-                        if (isEvolove && item.awardDescriptions && item.awardDescriptions.length > 0) {
+                        if (isevolve && item.awardDescriptions && item.awardDescriptions.length > 0) {
                             item.awardDescriptions.forEach(desc => {
                                 html += '<div class="award-tl-row">' +
                                     '<span></span><span></span>' +
