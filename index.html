@@ -489,7 +489,7 @@ let dancerEventFilter = {};
 
 // ─── EVENT METADATA ─────────────────────────────────────────────────────────
 const EVENT_META = {
-    'evolve': {
+    'Evolve': {
         icon: '🌊', cls: 'evolve', accent: '', dayHeaderCls: 'evolve-day', selCls: 'sel-evolve',
         date: 'April 15–19, 2026', venue: 'Winsport', address: '151 Canada Olympic Rd SW, Calgary'
     },
@@ -507,7 +507,7 @@ const EVENT_META = {
     }
 };
 
-const EVENT_ORDER = ['evolve', 'Plie Prep', 'Danceworks', 'Abstract'];
+const EVENT_ORDER = ['Evolve', 'Plie Prep', 'Danceworks', 'Abstract'];
 
 // ─── NAME NORMALIZATION ─────────────────────────────────────────────────────
 function toProperCase(str) {
@@ -1125,7 +1125,7 @@ function renderTimelineTab() {
         if (selectedTimelineEvent !== 'all' && event.eventName !== selectedTimelineEvent) return;
 
         const meta = EVENT_META[event.eventName] || {};
-        const isevolve = event.eventName === 'evolve';
+        const isevolve = event.eventName === 'Evolve';
         const totalDances = event.isPlaceholder ? 0 :
             event.days.reduce((a, d) => a + d.dances.filter(x => x.type === 'dance').length, 0);
 
