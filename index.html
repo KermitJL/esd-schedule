@@ -147,7 +147,6 @@
         }
         .clear-btn:hover { background: var(--mid-grey); }
 
-        /* EVENT FILTER CHIPS */
         .event-filter-row {
             display: flex; gap: 8px; flex-wrap: wrap;
             margin-top: 12px; padding-top: 12px;
@@ -171,18 +170,13 @@
             white-space: nowrap;
         }
 
-        /* Unselected state */
         .filter-chip.unselected {
             background: var(--light-grey);
             color: var(--text-light);
             border-color: var(--light-grey);
         }
-        .filter-chip.unselected:hover {
-            background: var(--mid-grey);
-            color: var(--text-mid);
-        }
+        .filter-chip.unselected:hover { background: var(--mid-grey); color: var(--text-mid); }
 
-        /* Selected states per event */
         .filter-chip.sel-evolve {
             background: rgba(75, 191, 191, 0.15);
             color: var(--teal-dark);
@@ -247,7 +241,6 @@
         .stat-number { font-size: 1.6rem; font-weight: 700; color: var(--purple); }
         .stat-label  { font-size: 0.7rem; color: var(--text-light); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
 
-        /* EVENT SECTION */
         .event-section {
             margin-bottom: 24px;
             border-radius: 12px; overflow: hidden;
@@ -260,9 +253,9 @@
             padding: 16px 20px;
             display: flex; align-items: flex-start; gap: 12px;
         }
-        .event-header.evolve  { background: linear-gradient(135deg, var(--teal-dark), var(--teal)); }
-        .event-header.plie     { background: linear-gradient(135deg, var(--purple-dark), var(--purple)); }
-        .event-header.abstract { background: linear-gradient(135deg, var(--charcoal), var(--charcoal-light)); }
+        .event-header.evolve    { background: linear-gradient(135deg, var(--teal-dark), var(--teal)); }
+        .event-header.plie      { background: linear-gradient(135deg, var(--purple-dark), var(--purple)); }
+        .event-header.abstract  { background: linear-gradient(135deg, var(--charcoal), var(--charcoal-light)); }
         .event-header.danceworks { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
 
         .event-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
@@ -281,22 +274,6 @@
             flex-shrink: 0; margin-top: 4px;
         }
 
-        /* PLACEHOLDER */
-        .placeholder-banner {
-            padding: 28px 24px;
-            text-align: center;
-            background: repeating-linear-gradient(
-                45deg,
-                rgba(0,0,0,0.02),
-                rgba(0,0,0,0.02) 10px,
-                rgba(0,0,0,0.04) 10px,
-                rgba(0,0,0,0.04) 20px
-            );
-        }
-        .placeholder-banner p { color: var(--text-mid); font-size: 0.9rem; font-style: italic; }
-        .placeholder-banner .ph-icon { font-size: 2rem; margin-bottom: 8px; }
-
-        /* DAY SECTIONS */
         .day-section { border-bottom: 1px solid var(--light-grey); }
         .day-section:last-child { border-bottom: none; }
 
@@ -309,11 +286,11 @@
             transition: background 0.15s;
         }
         .day-header:hover { background: #ebebeb; }
-        .day-header.evolve-day  { border-left: 4px solid var(--teal); }
-        .day-header.plie-day     { border-left: 4px solid var(--purple); }
-        .day-header.abstract-day { border-left: 4px solid var(--charcoal); }
+        .day-header.evolve-day    { border-left: 4px solid var(--teal); }
+        .day-header.plie-day      { border-left: 4px solid var(--purple); }
+        .day-header.abstract-day  { border-left: 4px solid var(--charcoal); }
         .day-header.danceworks-day { border-left: 4px solid var(--gold); }
-        .day-header.special-day  { border-left: 4px solid #E0A020; }
+        .day-header.special-day   { border-left: 4px solid #E0A020; }
 
         .day-name { font-size: 0.88rem; font-weight: 800; color: var(--charcoal); }
         .day-date { font-size: 0.74rem; font-weight: 700; color: var(--charcoal); margin-left: 2px; }
@@ -329,7 +306,6 @@
 
         .day-dances { padding: 12px 14px; background: var(--white); }
 
-        /* DANCE CARD */
         .dance-card {
             background: var(--off-white);
             border: 1px solid var(--light-grey);
@@ -414,11 +390,7 @@
             background: #F3E5F5; border: 1px solid #CE93D8; color: #6A1B9A;
         }
 
-        /* TIMELINE FILTER */
-        .tl-filter-row {
-            display: flex; gap: 8px; flex-wrap: wrap;
-            align-items: center;
-        }
+        .tl-filter-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
         .loading { text-align: center; padding: 80px 20px; color: var(--text-light); }
         .spinner {
@@ -499,7 +471,7 @@ const EVENT_META = {
     },
     'Danceworks': {
         icon: '🌟', cls: 'danceworks', accent: 'gold-accent', dayHeaderCls: 'danceworks-day', selCls: 'sel-danceworks',
-        date: 'May 8–10, 2026', venue: 'Westerner Park', address: '4847A 19 St, Red Deer'
+        date: 'May 7–10, 2026', venue: 'Westerner Park', address: '4847A 19 St, Red Deer'
     },
     'Abstract': {
         icon: '⭐', cls: 'abstract', accent: 'charcoal-accent', dayHeaderCls: 'abstract-day', selCls: 'sel-abstract',
@@ -508,6 +480,14 @@ const EVENT_META = {
 };
 
 const EVENT_ORDER = ['Evolve', 'Plie Prep', 'Danceworks', 'Abstract'];
+
+// ─── SHEET NAME MAP ──────────────────────────────────────────────────────────
+const SHEET_NAMES = {
+    'Evolve':     'Evolve April 15 - 19',
+    'Plie Prep':  'Plie Prep April 29 - May 3',
+    'Danceworks': 'Danceworks May 7 - 10',
+    'Abstract':   'Abstract May 21 - 24'
+};
 
 // ─── NAME NORMALIZATION ─────────────────────────────────────────────────────
 function toProperCase(str) {
@@ -521,13 +501,14 @@ function toProperCase(str) {
     }).join(' ');
 }
 
-function parseDancerNames(rawParts) {
-    const joined = rawParts.join(',');
-    const tokens = joined.split(',').map(t => t.trim()).filter(t => t.length > 0);
+function parseDancerNames(rawStr) {
+    if (!rawStr) return [];
+    // Handle & separators
+    const parts = rawStr.split(',').map(t => t.trim()).filter(t => t.length > 0);
     const names = [];
     let i = 0;
-    while (i < tokens.length) {
-        const token = tokens[i];
+    while (i < parts.length) {
+        const token = parts[i];
         if (token.includes('&')) {
             token.split('&').forEach(part => {
                 const name = toProperCase(part.trim());
@@ -538,8 +519,8 @@ function parseDancerNames(rawParts) {
             names.push(toProperCase(token));
             i++;
         } else {
-            if (i + 1 < tokens.length && !tokens[i+1].includes(' ') && !tokens[i+1].includes('&')) {
-                names.push(toProperCase(token + ' ' + tokens[i+1]));
+            if (i + 1 < parts.length && !parts[i+1].includes(' ') && !parts[i+1].includes('&')) {
+                names.push(toProperCase(token + ' ' + parts[i+1]));
                 i += 2;
             } else {
                 names.push(toProperCase(token));
@@ -598,13 +579,6 @@ function parseEventSheet(rawData, eventName) {
     let currentDay = null;
     let currentDayDances = [];
     let currentDance = null;
-    let currentDancerParts = [];
-
-    function flushDancers() {
-        if (currentDance && currentDancerParts.length > 0) {
-            currentDance.dancers = parseDancerNames(currentDancerParts);
-        }
-    }
 
     for (let i = 0; i < rawData.length; i++) {
         const row = rawData[i];
@@ -615,37 +589,35 @@ function parseEventSheet(rawData, eventName) {
         const col4 = (row[4] || '').toString().trim();
         const col0Up = col0.toUpperCase();
 
-        if (/MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY/.test(col0Up)) {
-            flushDancers();
+        // Day header - standard days
+        if (/^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)/.test(col0Up) &&
+            !col0Up.includes('FINALS')) {
             if (currentDay && currentDayDances.length > 0) {
                 days.push({ day: currentDay, isSpecial: false, dances: currentDayDances });
             }
             currentDay = col0;
             currentDayDances = [];
             currentDance = null;
-            currentDancerParts = [];
             continue;
         }
 
+        // PURPOSE SHOWCASE
         if (col0Up.includes('PURPOSE') || col0Up.includes('SHOWCASE')) {
-            flushDancers();
             if (currentDay && currentDayDances.length > 0) {
                 days.push({ day: currentDay, isSpecial: false, dances: currentDayDances });
             }
             currentDay = col0;
             currentDayDances = [];
             currentDance = null;
-            currentDancerParts = [];
 
             if (col2 && col3) {
-                currentDancerParts = col4 ? [col4] : [];
                 currentDance = {
                     type: 'dance',
                     rehearsalTime: null,
                     performanceTime: decimalToTime(col1),
                     entry: col2,
                     danceName: toDanceNameUpper(col3),
-                    dancers: [],
+                    dancers: parseDancerNames(col4),
                     isSpecial: true
                 };
                 currentDayDances.push(currentDance);
@@ -653,6 +625,18 @@ function parseEventSheet(rawData, eventName) {
             continue;
         }
 
+        // FINALS section (Danceworks)
+        if (col0Up.includes('FINALS')) {
+            if (currentDay && currentDayDances.length > 0) {
+                days.push({ day: currentDay, isSpecial: false, dances: currentDayDances });
+            }
+            currentDay = col0;
+            currentDayDances = [];
+            currentDance = null;
+            continue;
+        }
+
+        // Award description rows (Evolve)
         if (col0.includes('Overall') || col0.includes('Top 5') || col0.includes('Top 10')) {
             for (let k = currentDayDances.length - 1; k >= 0; k--) {
                 if (currentDayDances[k].type === 'break' && currentDayDances[k].breakType.includes('AWARDS')) {
@@ -664,10 +648,9 @@ function parseEventSheet(rawData, eventName) {
             continue;
         }
 
+        // ADJUDICATION / AWARDS SESSION / FINAL AWARDS
         if (col0Up.includes('ADJUDICATION') || col0Up.includes('AWARDS SESSION') || col0Up.includes('FINAL AWARDS')) {
-            flushDancers();
             currentDance = null;
-            currentDancerParts = [];
             const breakType = col0Up.includes('AWARDS SESSION') ? 'AWARDS SESSION' :
                               col0Up.includes('FINAL AWARDS') ? 'FINAL AWARDS' : 'ADJUDICATION';
             if (currentDay) {
@@ -681,29 +664,41 @@ function parseEventSheet(rawData, eventName) {
             continue;
         }
 
+        // Note/instruction rows (e.g. *Arrive & rehearse...) that contain dance data in col1-col4
+        if (col0.startsWith('*') || (col0.toLowerCase().includes('arrive') && col2 && col3)) {
+            if (col2 && col3 && col1) {
+                currentDance = {
+                    type: 'dance',
+                    rehearsalTime: null, // no rehearsal time for note rows
+                    performanceTime: decimalToTime(col1),
+                    entry: col2,
+                    danceName: toDanceNameUpper(col3),
+                    dancers: parseDancerNames(col4),
+                    isSpecial: false,
+                    hasNote: col0
+                };
+                if (currentDay) currentDayDances.push(currentDance);
+            }
+            continue;
+        }
+
+        // Standard dance entry (decimal time in col0, entry in col2)
         if (typeof row[0] === 'number' && col2) {
-            flushDancers();
-            currentDancerParts = col4 ? [col4] : [];
             currentDance = {
                 type: 'dance',
                 rehearsalTime: decimalToTime(row[0]),
                 performanceTime: decimalToTime(col1),
                 entry: col2,
                 danceName: toDanceNameUpper(col3),
-                dancers: [],
+                dancers: parseDancerNames(col4),
                 isSpecial: false
             };
             if (currentDay) currentDayDances.push(currentDance);
             continue;
         }
-
-        if (col4 && !col2 && currentDance && currentDance.type === 'dance') {
-            currentDancerParts.push(col4);
-        }
     }
 
-    flushDancers();
-
+    // Save last day
     if (currentDay && currentDayDances.length > 0) {
         days.push({
             day: currentDay,
@@ -724,7 +719,6 @@ function buildDatabase(events) {
     const allDanceNames  = new Set();
 
     events.forEach(event => {
-        if (event.isPlaceholder) return;
         event.days.forEach(dayObj => {
             dayObj.dances.forEach(dance => {
                 if (dance.type !== 'dance' || !dance.danceName) return;
@@ -757,32 +751,20 @@ function buildDatabase(events) {
 // ─── LOAD DATA ───────────────────────────────────────────────────────────────
 async function loadData() {
     try {
-const response = await fetch('ESD2026.xlsx');
-const arrayBuffer = await response.arrayBuffer();
-const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
+        const response = await window.fs.readFile('/data/ESD2026.xlsx');
+        const workbook = XLSX.read(response, { type: 'array' });
 
-        const evolveRaw  = getSheetArray(workbook, 'Evolve April 15 - 19');
-        const plieRaw     = getSheetArray(workbook, 'Plie Prep April 29 - May 3');
-        const abstractRaw = getSheetArray(workbook, 'Abstract May 21-24');
-
-        const evolve  = parseEventSheet(evolveRaw,  'Evolve');
-        const plie     = parseEventSheet(plieRaw,     'Plie Prep');
-        const abstract = parseEventSheet(abstractRaw, 'Abstract');
-
-        const danceworks = {
-            eventName: 'Danceworks',
-            location: EVENT_META['Danceworks'].venue,
-            address: EVENT_META['Danceworks'].address,
-            dateRange: EVENT_META['Danceworks'].date,
-            days: [],
-            isPlaceholder: true
-        };
-
-        const allEvents = [evolve, plie, danceworks, abstract];
+        const allEvents = EVENT_ORDER.map(evName => {
+            const sheetName = SHEET_NAMES[evName];
+            const rawData = getSheetArray(workbook, sheetName);
+            if (!rawData.length) {
+                console.warn('Sheet not found or empty: ' + sheetName);
+            }
+            return parseEventSheet(rawData, evName);
+        });
 
         DB = buildDatabase(allEvents);
 
-        // Init all event filters as ON
         allEvents.forEach(ev => {
             dancerEventFilter[ev.eventName] = true;
         });
@@ -844,7 +826,8 @@ function buildEventFilterChips(filterState) {
         const isOn = filterState[ev.eventName] !== false;
         const selCls = isOn ? (meta.selCls || 'sel-evolve') : 'unselected';
         const checkmark = isOn ? '✓' : '';
-        return '<div class="filter-chip ' + selCls + '" onclick="toggleDancerFilter(\'' + ev.eventName.replace(/'/g, "\\'") + '\')">' +
+        const safeName = ev.eventName.replace(/'/g, "\\'");
+        return '<div class="filter-chip ' + selCls + '" onclick="toggleDancerFilter(\'' + safeName + '\')">' +
             '<span class="chip-check">' + checkmark + '</span>' +
             (meta.icon || '') + ' ' + ev.eventName +
             '</div>';
@@ -946,7 +929,6 @@ function renderDancerResults(dancerName) {
         if (matchKey) entries = DB.dancerMap[matchKey];
     }
 
-    // Apply event filter
     entries = entries.filter(e => dancerEventFilter[e.event.eventName] !== false);
 
     const byEvent = {};
@@ -956,12 +938,13 @@ function renderDancerResults(dancerName) {
         const dayKey = e.day;
         if (!byEvent[evName].days[dayKey]) byEvent[evName].days[dayKey] = [];
         const exists = byEvent[evName].days[dayKey].find(d =>
-            d.dance.danceName === e.dance.danceName && d.dance.rehearsalTime === e.dance.rehearsalTime);
+            d.dance.danceName === e.dance.danceName && d.dance.rehearsalTime === e.dance.rehearsalTime &&
+            d.dance.performanceTime === e.dance.performanceTime);
         if (!exists) byEvent[evName].days[dayKey].push(e);
     });
 
     const uniqueDances = new Set(entries.map(e =>
-        e.event.eventName + '|' + e.day + '|' + e.dance.danceName + '|' + e.dance.rehearsalTime));
+        e.event.eventName + '|' + e.day + '|' + e.dance.danceName + '|' + e.dance.performanceTime));
 
     let html = '<div class="stats-bar">' +
         '<div class="stat-card"><div class="stat-number">' + uniqueDances.size + '</div><div class="stat-label">Total Dances</div></div>' +
@@ -1098,7 +1081,6 @@ function renderDanceResults(danceName) {
 
 // ─── TIMELINE TAB ────────────────────────────────────────────────────────────
 function renderTimelineTab() {
-    // Build timeline filter chips
     const tlChips = [
         '<div class="filter-chip ' + (selectedTimelineEvent === 'all' ? 'sel-evolve' : 'unselected') + '" onclick="setEventFilter(\'all\')">' +
         '<span class="chip-check">' + (selectedTimelineEvent === 'all' ? '✓' : '') + '</span>All Events</div>'
@@ -1107,8 +1089,9 @@ function renderTimelineTab() {
         const meta = EVENT_META[ev.eventName] || {};
         const isActive = selectedTimelineEvent === ev.eventName;
         const selCls = isActive ? (meta.selCls || 'sel-evolve') : 'unselected';
+        const safeName = ev.eventName.replace(/'/g, "\\'");
         tlChips.push(
-            '<div class="filter-chip ' + selCls + '" onclick="setEventFilter(\'' + ev.eventName.replace(/'/g, "\\'") + '\')">' +
+            '<div class="filter-chip ' + selCls + '" onclick="setEventFilter(\'' + safeName + '\')">' +
             '<span class="chip-check">' + (isActive ? '✓' : '') + '</span>' +
             (meta.icon || '') + ' ' + ev.eventName +
             '</div>'
@@ -1126,76 +1109,68 @@ function renderTimelineTab() {
 
         const meta = EVENT_META[event.eventName] || {};
         const isEvolve = event.eventName === 'Evolve';
-        const totalDances = event.isPlaceholder ? 0 :
-            event.days.reduce((a, d) => a + d.dances.filter(x => x.type === 'dance').length, 0);
+        const totalDances = event.days.reduce((a, d) => a + d.dances.filter(x => x.type === 'dance').length, 0);
 
         html += '<div class="event-section">' +
             buildEventHeader(event.eventName, totalDances + ' dances');
 
-        if (event.isPlaceholder) {
-            html += '<div class="placeholder-banner">' +
-                '<div class="ph-icon">🚧</div>' +
-                '<p>Schedule details coming soon for ' + event.eventName + ' (' + event.dateRange + ')</p>' +
+        event.days.forEach(dayObj => {
+            const isSpecial = dayObj.isSpecial;
+            const { dayName, dayDate } = formatDayHeader(dayObj.day);
+            const dayId = 'tl-' + (event.eventName + dayObj.day).replace(/\W+/g, '-');
+            const headerCls = isSpecial ? 'special-day' : (meta.dayHeaderCls || 'evolve-day');
+            const danceCount = dayObj.dances.filter(d => d.type === 'dance').length;
+
+            html += '<div class="day-section">' +
+                '<div class="day-header ' + headerCls + '" onclick="toggleDay(\'' + dayId + '\')">' +
+                '<span class="day-name">' + (isSpecial ? '⭐ ' + dayObj.day : '<strong>' + dayName + '</strong>') + '</span>' +
+                (!isSpecial ? '<span class="day-date"><strong>' + dayDate + '</strong></span>' : '') +
+                '<span class="day-count">' + danceCount + ' dance' + (danceCount !== 1 ? 's' : '') + '</span>' +
+                '<span class="day-chevron" id="' + dayId + '-chevron">▼</span>' +
+                '</div>' +
+                '<div class="day-dances" id="' + dayId + '" style="display:none;">' +
+                '<div class="timeline-header-row">' +
+                '<span>Rehearsal</span><span>Performance</span><span>Dance / Entry</span><span>Dancers</span>' +
                 '</div>';
-        } else {
-            event.days.forEach(dayObj => {
-                const isSpecial = dayObj.isSpecial;
-                const { dayName, dayDate } = formatDayHeader(dayObj.day);
-                const dayId = 'tl-' + (event.eventName + dayObj.day).replace(/\W+/g, '-');
-                const headerCls = isSpecial ? 'special-day' : (meta.dayHeaderCls || 'evolve-day');
-                const danceCount = dayObj.dances.filter(d => d.type === 'dance').length;
 
-                html += '<div class="day-section">' +
-                    '<div class="day-header ' + headerCls + '" onclick="toggleDay(\'' + dayId + '\')">' +
-                    '<span class="day-name">' + (isSpecial ? '⭐ ' + dayObj.day : '<strong>' + dayName + '</strong>') + '</span>' +
-                    (!isSpecial ? '<span class="day-date"><strong>' + dayDate + '</strong></span>' : '') +
-                    '<span class="day-count">' + danceCount + ' dance' + (danceCount !== 1 ? 's' : '') + '</span>' +
-                    '<span class="day-chevron" id="' + dayId + '-chevron">▼</span>' +
-                    '</div>' +
-                    '<div class="day-dances" id="' + dayId + '" style="display:none;">' +
-                    '<div class="timeline-header-row">' +
-                    '<span>Rehearsal</span><span>Performance</span><span>Dance / Entry</span><span>Dancers</span>' +
-                    '</div>';
+            dayObj.dances.forEach(item => {
+                if (item.type === 'break') {
+                    const isAwards = item.breakType.includes('AWARDS') || item.breakType.includes('FINAL');
+                    const breakIcon = isAwards ? '🏆' : '⏸️';
+                    const rowCls = isAwards ? 'awards-tl' : 'break-tl';
 
-                dayObj.dances.forEach(item => {
-                    if (item.type === 'break') {
-                        const isAwards = item.breakType.includes('AWARDS') || item.breakType.includes('FINAL');
-                        const breakIcon = isAwards ? '🏆' : '⏸️';
-                        const rowCls = isAwards ? 'awards-tl' : 'break-tl';
+                    html += '<div class="timeline-row ' + rowCls + '">' +
+                        '<span></span>' +
+                        '<span style="font-weight:700">' + (item.time || '') + '</span>' +
+                        '<span>' + breakIcon + ' ' + item.breakType + '</span>' +
+                        '<span></span>' +
+                        '</div>';
 
-                        html += '<div class="timeline-row ' + rowCls + '">' +
-                            '<span></span>' +
-                            '<span style="font-weight:700">' + (item.time || '') + '</span>' +
-                            '<span>' + breakIcon + ' ' + item.breakType + '</span>' +
-                            '<span></span>' +
-                            '</div>';
-
-                        if (isEvolve && item.awardDescriptions && item.awardDescriptions.length > 0) {
-                            item.awardDescriptions.forEach(desc => {
-                                html += '<div class="award-tl-row">' +
-                                    '<span></span><span></span>' +
-                                    '<span style="font-style:italic;">🎖️ ' + desc + '</span>' +
-                                    '<span></span>' +
-                                    '</div>';
-                            });
-                        }
-
-                    } else if (item.type === 'dance') {
-                        const allDancers = item.dancers.join(', ');
-                        const rowCls = isSpecial ? 'special-tl' : '';
-                        html += '<div class="timeline-row ' + rowCls + '">' +
-                            '<span class="timeline-time">' + (item.rehearsalTime || (isSpecial ? 'Showcase' : '—')) + '</span>' +
-                            '<span class="timeline-perf">' + (item.performanceTime || '—') + '</span>' +
-                            '<span class="timeline-dance">' + item.danceName +
-                            '<br><span style="font-size:0.7rem;font-weight:400;color:var(--text-light)">' + item.entry + '</span></span>' +
-                            '<span class="timeline-dancers">' + allDancers + '</span>' +
-                            '</div>';
+                    if (isEvolve && item.awardDescriptions && item.awardDescriptions.length > 0) {
+                        item.awardDescriptions.forEach(desc => {
+                            html += '<div class="award-tl-row">' +
+                                '<span></span><span></span>' +
+                                '<span style="font-style:italic;">🎖️ ' + desc + '</span>' +
+                                '<span></span>' +
+                                '</div>';
+                        });
                     }
-                });
 
-                html += '</div></div>';
+                } else if (item.type === 'dance') {
+                    const allDancers = item.dancers.join(', ');
+                    const rowCls = isSpecial ? 'special-tl' : '';
+                    html += '<div class="timeline-row ' + rowCls + '">' +
+                        '<span class="timeline-time">' + (item.rehearsalTime || (isSpecial ? 'Showcase' : '—')) + '</span>' +
+                        '<span class="timeline-perf">' + (item.performanceTime || '—') + '</span>' +
+                        '<span class="timeline-dance">' + item.danceName +
+                        '<br><span style="font-size:0.7rem;font-weight:400;color:var(--text-light)">' + item.entry + '</span></span>' +
+                        '<span class="timeline-dancers">' + allDancers + '</span>' +
+                        '</div>';
+                }
             });
-        }
+
+            html += '</div></div>';
+        });
 
         html += '</div>';
     });
