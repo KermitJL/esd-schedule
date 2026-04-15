@@ -330,12 +330,27 @@
             color: var(--charcoal);
             text-transform: uppercase; letter-spacing: 0.3px;
         }
+        .dance-badges {
+            display: flex; gap: 6px; align-items: center; flex-shrink: 0;
+        }
         .dance-type-pill {
             background: var(--light-grey); color: var(--text-mid);
             padding: 2px 8px; border-radius: 10px;
             font-size: 0.68rem; font-weight: 600;
             white-space: nowrap; text-transform: uppercase;
             letter-spacing: 0.3px; flex-shrink: 0;
+        }
+        .entry-number-badge {
+            background: rgba(107, 63, 160, 0.12);
+            color: var(--purple-dark);
+            border: 1px solid var(--purple);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+            letter-spacing: 0.3px;
         }
         .dance-entry { font-size: 0.78rem; color: var(--text-light); margin-bottom: 9px; font-style: italic; }
 
@@ -357,7 +372,7 @@
         /* TIMELINE */
         .timeline-header-row {
             display: grid;
-            grid-template-columns: 90px 90px 1fr 1fr;
+            grid-template-columns: 65px 90px 90px 1fr 1fr;
             gap: 8px; padding: 6px 12px;
             font-size: 0.68rem; font-weight: 700;
             text-transform: uppercase; letter-spacing: 0.5px;
@@ -365,7 +380,7 @@
         }
         .timeline-row {
             display: grid;
-            grid-template-columns: 90px 90px 1fr 1fr;
+            grid-template-columns: 65px 90px 90px 1fr 1fr;
             gap: 8px; align-items: start;
             padding: 8px 12px; border-radius: 7px;
             margin-bottom: 4px; font-size: 0.78rem;
@@ -376,6 +391,7 @@
         .timeline-row.awards-tl { background: #F3E5F5; border-color: #CE93D8; font-weight: 600; color: #6A1B9A; }
         .timeline-row.special-tl { background: #FFF8E7; border-color: #F0D080; }
 
+        .timeline-entry { color: var(--purple); font-weight: 700; font-size: 0.76rem; }
         .timeline-time  { color: var(--teal-dark); font-weight: 600; }
         .timeline-perf  { color: var(--purple-dark); font-weight: 600; }
         .timeline-dance { font-weight: 700; color: var(--charcoal); }
@@ -383,7 +399,7 @@
 
         .award-tl-row {
             display: grid;
-            grid-template-columns: 90px 90px 1fr 1fr;
+            grid-template-columns: 65px 90px 90px 1fr 1fr;
             gap: 8px; align-items: center;
             padding: 5px 12px; border-radius: 6px;
             margin-bottom: 3px; font-size: 0.73rem;
@@ -414,9 +430,9 @@
             .tab { padding: 10px 12px; font-size: 0.78rem; }
             .dance-times { flex-direction: column; }
             .dance-top { flex-direction: column; }
-            .timeline-row { grid-template-columns: 75px 75px 1fr; }
+            .timeline-row { grid-template-columns: 55px 75px 75px 1fr; }
             .timeline-dancers { display: none; }
-            .timeline-header-row { grid-template-columns: 75px 75px 1fr; }
+            .timeline-header-row { grid-template-columns: 55px 75px 75px 1fr; }
         }
     </style>
 </head>
@@ -481,7 +497,6 @@ const EVENT_META = {
 
 const EVENT_ORDER = ['Evolve', 'Plie Prep', 'Danceworks', 'Abstract'];
 
-// ─── SHEET NAME MAP ──────────────────────────────────────────────────────────
 const SHEET_NAMES = {
     'Evolve':     'Evolve April 15 - 19',
     'Plie Prep':  'Plie Prep April 29 - May 3',
@@ -503,7 +518,6 @@ function toProperCase(str) {
 
 function parseDancerNames(rawStr) {
     if (!rawStr) return [];
-    // Handle & separators
     const parts = rawStr.split(',').map(t => t.trim()).filter(t => t.length > 0);
     const names = [];
     let i = 0;
@@ -587,9 +601,10 @@ function parseEventSheet(rawData, eventName) {
         const col2 = (row[2] || '').toString().trim();
         const col3 = (row[3] || '').toString().trim();
         const col4 = (row[4] || '').toString().trim();
+        const col5 = (row[5] || '').toString().trim(); // Entry # column
         const col0Up = col0.toUpperCase();
 
-        // Day header - standard days
+        // Day header
         if (/^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)/.test(col0Up) &&
             !col0Up.includes('FINALS')) {
             if (currentDay && currentDayDances.length > 0) {
@@ -618,6 +633,7 @@ function parseEventSheet(rawData, eventName) {
                     entry: col2,
                     danceName: toDanceNameUpper(col3),
                     dancers: parseDancerNames(col4),
+                    entryNumber: col5,
                     isSpecial: true
                 };
                 currentDayDances.push(currentDance);
@@ -625,7 +641,7 @@ function parseEventSheet(rawData, eventName) {
             continue;
         }
 
-        // FINALS section (Danceworks)
+        // FINALS section
         if (col0Up.includes('FINALS')) {
             if (currentDay && currentDayDances.length > 0) {
                 days.push({ day: currentDay, isSpecial: false, dances: currentDayDances });
@@ -636,7 +652,7 @@ function parseEventSheet(rawData, eventName) {
             continue;
         }
 
-        // Award description rows (Evolve)
+        // Award description rows
         if (col0.includes('Overall') || col0.includes('Top 5') || col0.includes('Top 10')) {
             for (let k = currentDayDances.length - 1; k >= 0; k--) {
                 if (currentDayDances[k].type === 'break' && currentDayDances[k].breakType.includes('AWARDS')) {
@@ -664,16 +680,17 @@ function parseEventSheet(rawData, eventName) {
             continue;
         }
 
-        // Note/instruction rows (e.g. *Arrive & rehearse...) that contain dance data in col1-col4
+        // Note/instruction rows with dance data
         if (col0.startsWith('*') || (col0.toLowerCase().includes('arrive') && col2 && col3)) {
             if (col2 && col3 && col1) {
                 currentDance = {
                     type: 'dance',
-                    rehearsalTime: null, // no rehearsal time for note rows
+                    rehearsalTime: null,
                     performanceTime: decimalToTime(col1),
                     entry: col2,
                     danceName: toDanceNameUpper(col3),
                     dancers: parseDancerNames(col4),
+                    entryNumber: col5,
                     isSpecial: false,
                     hasNote: col0
                 };
@@ -682,7 +699,7 @@ function parseEventSheet(rawData, eventName) {
             continue;
         }
 
-        // Standard dance entry (decimal time in col0, entry in col2)
+        // Standard dance entry
         if (typeof row[0] === 'number' && col2) {
             currentDance = {
                 type: 'dance',
@@ -691,6 +708,7 @@ function parseEventSheet(rawData, eventName) {
                 entry: col2,
                 danceName: toDanceNameUpper(col3),
                 dancers: parseDancerNames(col4),
+                entryNumber: col5,
                 isSpecial: false
             };
             if (currentDay) currentDayDances.push(currentDance);
@@ -698,7 +716,6 @@ function parseEventSheet(rawData, eventName) {
         }
     }
 
-    // Save last day
     if (currentDay && currentDayDances.length > 0) {
         days.push({
             day: currentDay,
@@ -1134,7 +1151,7 @@ function renderTimelineTab() {
                 '</div>' +
                 '<div class="day-dances" id="' + dayId + '" style="display:none;">' +
                 '<div class="timeline-header-row">' +
-                '<span>Rehearsal</span><span>Performance</span><span>Dance / Entry</span><span>Dancers</span>' +
+                '<span>Entry #</span><span>Rehearsal</span><span>Performance</span><span>Dance / Entry</span><span>Dancers</span>' +
                 '</div>';
 
             dayObj.dances.forEach(item => {
@@ -1145,6 +1162,7 @@ function renderTimelineTab() {
 
                     html += '<div class="timeline-row ' + rowCls + '">' +
                         '<span></span>' +
+                        '<span></span>' +
                         '<span style="font-weight:700">' + (item.time || '') + '</span>' +
                         '<span>' + breakIcon + ' ' + item.breakType + '</span>' +
                         '<span></span>' +
@@ -1153,7 +1171,7 @@ function renderTimelineTab() {
                     if (isEvolve && item.awardDescriptions && item.awardDescriptions.length > 0) {
                         item.awardDescriptions.forEach(desc => {
                             html += '<div class="award-tl-row">' +
-                                '<span></span><span></span>' +
+                                '<span></span><span></span><span></span>' +
                                 '<span style="font-style:italic;">🎖️ ' + desc + '</span>' +
                                 '<span></span>' +
                                 '</div>';
@@ -1163,7 +1181,9 @@ function renderTimelineTab() {
                 } else if (item.type === 'dance') {
                     const allDancers = item.dancers.join(', ');
                     const rowCls = isSpecial ? 'special-tl' : '';
+                    const entryNum = item.entryNumber ? '#' + item.entryNumber : '—';
                     html += '<div class="timeline-row ' + rowCls + '">' +
+                        '<span class="timeline-entry">' + entryNum + '</span>' +
                         '<span class="timeline-time">' + (item.rehearsalTime || (isSpecial ? 'Showcase' : '—')) + '</span>' +
                         '<span class="timeline-perf">' + (item.performanceTime || '—') + '</span>' +
                         '<span class="timeline-dance">' + item.danceName +
@@ -1203,10 +1223,17 @@ function renderDanceCard(dance, accentClass, highlightDancer) {
         ? '<div class="time-badge rehearsal">⏰ Rehearsal: <strong>' + dance.rehearsalTime + '</strong></div>'
         : (dance.isSpecial ? '<div class="time-badge special-badge">⭐ Purpose Showcase</div>' : '');
 
+    const entryBadge = dance.entryNumber
+        ? '<div class="entry-number-badge">#' + dance.entryNumber + '</div>'
+        : '';
+
     return '<div class="dance-card ' + accentClass + '">' +
         '<div class="dance-top">' +
         '<div class="dance-name">🎵 ' + dance.danceName + '</div>' +
+        '<div class="dance-badges">' +
+        entryBadge +
         (danceType ? '<div class="dance-type-pill">' + danceType + '</div>' : '') +
+        '</div>' +
         '</div>' +
         '<div class="dance-entry">' + dance.entry + '</div>' +
         '<div class="dance-times">' +
