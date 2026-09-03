@@ -1,0 +1,1264 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESD Dance Schedule 2026</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --teal: #4BBFBF;
+            --teal-light: #7DD4D4;
+            --teal-dark: #2A9898;
+            --purple: #6B3FA0;
+            --purple-light: #8B5CC0;
+            --purple-dark: #4A2070;
+            --charcoal: #3A3A3A;
+            --charcoal-light: #5A5A5A;
+            --gold: #B8860B;
+            --gold-light: #DAA520;
+            --white: #FFFFFF;
+            --off-white: #F8F8F8;
+            --light-grey: #EFEFEF;
+            --mid-grey: #CCCCCC;
+            --text-dark: #2A2A2A;
+            --text-mid: #555555;
+            --text-light: #888888;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--off-white);
+            min-height: 100vh;
+            color: var(--text-dark);
+        }
+
+        .page-header {
+            background: var(--white);
+            border-bottom: 3px solid var(--teal);
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            position: sticky;
+            top: 0;
+            z-index: 200;
+        }
+
+        .logo-mark {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), var(--purple));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.3rem; flex-shrink: 0;
+        }
+
+        .header-text h1 { font-size: 1.3rem; font-weight: 700; color: var(--charcoal); }
+        .header-text p  { font-size: 0.78rem; color: var(--text-light); margin-top: 1px; }
+        .header-right   { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+
+        .tabs {
+            background: var(--white);
+            border-bottom: 1px solid var(--light-grey);
+            padding: 0 24px;
+            display: flex;
+            position: sticky;
+            top: 77px;
+            z-index: 190;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .tab {
+            padding: 12px 20px;
+            font-size: 0.85rem; font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap; user-select: none;
+        }
+        .tab:hover { color: var(--teal-dark); }
+        .tab.active { color: var(--teal-dark); border-bottom-color: var(--teal); }
+
+        .main-content { max-width: 1100px; margin: 0 auto; padding: 24px 18px 60px; }
+
+        .search-section {
+            background: var(--white);
+            border: 1px solid var(--light-grey);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 6px rgba(0,0,0,0.06);
+        }
+
+        .search-row { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+        .search-input-wrap { flex: 1; min-width: 200px; position: relative; }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 16px 10px 40px;
+            border: 1.5px solid var(--mid-grey);
+            border-radius: 10px;
+            font-size: 0.9rem; color: var(--text-dark);
+            background: var(--off-white);
+            transition: border-color 0.2s; outline: none;
+        }
+        .search-input:focus { border-color: var(--teal); background: var(--white); }
+
+        .search-icon {
+            position: absolute; left: 12px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light); font-size: 1rem;
+        }
+
+        .search-dropdown {
+            position: absolute;
+            top: calc(100% + 4px); left: 0; right: 0;
+            background: var(--white);
+            border: 1px solid var(--mid-grey);
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            max-height: 280px; overflow-y: auto;
+            z-index: 300; display: none;
+        }
+        .search-dropdown.open { display: block; }
+
+        .dropdown-item {
+            padding: 9px 14px; font-size: 0.85rem;
+            cursor: pointer; color: var(--text-dark);
+            border-bottom: 1px solid var(--light-grey);
+            transition: background 0.15s;
+        }
+        .dropdown-item:last-child { border-bottom: none; }
+        .dropdown-item:hover { background: var(--off-white); }
+        .dropdown-item strong { color: var(--teal-dark); }
+
+        .clear-btn {
+            padding: 9px 16px;
+            background: var(--light-grey);
+            border: none; border-radius: 8px;
+            font-size: 0.82rem; font-weight: 600;
+            color: var(--text-mid); cursor: pointer;
+            transition: background 0.15s; white-space: nowrap;
+        }
+        .clear-btn:hover { background: var(--mid-grey); }
+
+        .event-filter-row {
+            display: flex; gap: 8px; flex-wrap: wrap;
+            margin-top: 12px; padding-top: 12px;
+            border-top: 1px solid var(--light-grey);
+            align-items: center;
+        }
+        .event-filter-label {
+            font-size: 0.76rem; font-weight: 600;
+            color: var(--text-light); white-space: nowrap;
+        }
+
+        .filter-chip {
+            display: flex; align-items: center; gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem; font-weight: 600;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+            user-select: none;
+            white-space: nowrap;
+        }
+
+        .filter-chip.unselected {
+            background: var(--light-grey);
+            color: var(--text-light);
+            border-color: var(--light-grey);
+        }
+        .filter-chip.unselected:hover { background: var(--mid-grey); color: var(--text-mid); }
+
+        .filter-chip.sel-evolve {
+            background: rgba(75, 191, 191, 0.15);
+            color: var(--teal-dark);
+            border-color: var(--teal);
+            box-shadow: 0 0 0 2px rgba(75,191,191,0.2);
+        }
+        .filter-chip.sel-plie {
+            background: rgba(107, 63, 160, 0.12);
+            color: var(--purple-dark);
+            border-color: var(--purple);
+            box-shadow: 0 0 0 2px rgba(107,63,160,0.15);
+        }
+        .filter-chip.sel-danceworks {
+            background: rgba(184, 134, 11, 0.12);
+            color: var(--gold);
+            border-color: var(--gold);
+            box-shadow: 0 0 0 2px rgba(184,134,11,0.15);
+        }
+        .filter-chip.sel-abstract {
+            background: rgba(58, 58, 58, 0.1);
+            color: var(--charcoal);
+            border-color: var(--charcoal);
+            box-shadow: 0 0 0 2px rgba(58,58,58,0.12);
+        }
+
+        .chip-check {
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            border: 2px solid currentColor;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.6rem;
+            flex-shrink: 0;
+        }
+
+        .filter-divider {
+            width: 1px; height: 24px;
+            background: var(--light-grey);
+            margin: 0 2px;
+        }
+
+        .filter-action-btn {
+            padding: 5px 10px;
+            background: none;
+            border: 1px solid var(--mid-grey);
+            border-radius: 6px;
+            font-size: 0.72rem; font-weight: 600;
+            color: var(--text-light); cursor: pointer;
+            transition: all 0.15s;
+        }
+        .filter-action-btn:hover { background: var(--light-grey); color: var(--text-mid); }
+
+        .stats-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--light-grey);
+            border-radius: 10px;
+            padding: 12px 18px; text-align: center;
+            flex: 1; min-width: 80px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+        }
+        .stat-number { font-size: 1.6rem; font-weight: 700; color: var(--purple); }
+        .stat-label  { font-size: 0.7rem; color: var(--text-light); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+        .event-section {
+            margin-bottom: 24px;
+            border-radius: 12px; overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.07);
+            background: var(--white);
+            border: 1px solid var(--light-grey);
+        }
+
+        .event-header {
+            padding: 16px 20px;
+            display: flex; align-items: flex-start; gap: 12px;
+        }
+        .event-header.evolve    { background: linear-gradient(135deg, var(--teal-dark), var(--teal)); }
+        .event-header.plie      { background: linear-gradient(135deg, var(--purple-dark), var(--purple)); }
+        .event-header.abstract  { background: linear-gradient(135deg, var(--charcoal), var(--charcoal-light)); }
+        .event-header.danceworks { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
+
+        .event-icon { font-size: 1.5rem; flex-shrink: 0; margin-top: 2px; }
+
+        .event-title-block { flex: 1; }
+        .event-title-block h2 { font-size: 1.15rem; font-weight: 800; color: white; letter-spacing: 0.2px; }
+        .event-title-block .event-date { color: rgba(255,255,255,0.95); font-size: 0.82rem; font-weight: 600; margin-top: 3px; }
+        .event-title-block .event-venue { color: rgba(255,255,255,0.85); font-size: 0.78rem; margin-top: 2px; }
+        .event-title-block .event-address { color: rgba(255,255,255,0.72); font-size: 0.74rem; margin-top: 1px; font-style: italic; }
+
+        .event-badge {
+            background: rgba(255,255,255,0.22);
+            color: white; padding: 4px 11px;
+            border-radius: 16px; font-size: 0.76rem; font-weight: 600;
+            white-space: nowrap; border: 1px solid rgba(255,255,255,0.3);
+            flex-shrink: 0; margin-top: 4px;
+        }
+
+        .day-section { border-bottom: 1px solid var(--light-grey); }
+        .day-section:last-child { border-bottom: none; }
+
+        .day-header {
+            padding: 10px 18px;
+            display: flex; align-items: center; gap: 10px;
+            cursor: pointer; user-select: none;
+            background: var(--off-white);
+            border-bottom: 1px solid var(--light-grey);
+            transition: background 0.15s;
+        }
+        .day-header:hover { background: #ebebeb; }
+        .day-header.evolve-day    { border-left: 4px solid var(--teal); }
+        .day-header.plie-day      { border-left: 4px solid var(--purple); }
+        .day-header.abstract-day  { border-left: 4px solid var(--charcoal); }
+        .day-header.danceworks-day { border-left: 4px solid var(--gold); }
+        .day-header.special-day   { border-left: 4px solid #E0A020; }
+
+        .day-name { font-size: 0.88rem; font-weight: 800; color: var(--charcoal); }
+        .day-date { font-size: 0.74rem; font-weight: 700; color: var(--charcoal); margin-left: 2px; }
+
+        .day-count {
+            margin-left: auto;
+            font-size: 0.72rem; color: var(--text-light);
+            background: var(--light-grey);
+            padding: 2px 8px; border-radius: 10px; font-weight: 600;
+        }
+        .day-chevron { font-size: 0.65rem; color: var(--text-light); transition: transform 0.2s; }
+        .day-chevron.open { transform: rotate(180deg); }
+
+        .day-dances { padding: 12px 14px; background: var(--white); }
+
+        .dance-card {
+            background: var(--off-white);
+            border: 1px solid var(--light-grey);
+            border-radius: 9px;
+            padding: 12px 14px; margin-bottom: 9px;
+            transition: box-shadow 0.2s, transform 0.15s;
+            border-left: 4px solid var(--teal);
+        }
+        .dance-card.purple-accent   { border-left-color: var(--purple); }
+        .dance-card.charcoal-accent { border-left-color: var(--charcoal); }
+        .dance-card.gold-accent     { border-left-color: var(--gold); }
+        .dance-card.special-accent  { border-left-color: #E0A020; }
+        .dance-card:last-child { margin-bottom: 0; }
+        .dance-card:hover { box-shadow: 0 3px 12px rgba(0,0,0,0.09); transform: translateY(-1px); }
+
+        .dance-top {
+            display: flex; align-items: flex-start;
+            justify-content: space-between; gap: 10px; margin-bottom: 4px;
+        }
+        .dance-name {
+            font-size: 0.95rem; font-weight: 700;
+            color: var(--charcoal);
+            text-transform: uppercase; letter-spacing: 0.3px;
+        }
+        .dance-badges {
+            display: flex; gap: 6px; align-items: center; flex-shrink: 0;
+        }
+        .dance-type-pill {
+            background: var(--light-grey); color: var(--text-mid);
+            padding: 2px 8px; border-radius: 10px;
+            font-size: 0.68rem; font-weight: 600;
+            white-space: nowrap; text-transform: uppercase;
+            letter-spacing: 0.3px; flex-shrink: 0;
+        }
+        .entry-number-badge {
+            background: rgba(107, 63, 160, 0.12);
+            color: var(--purple-dark);
+            border: 1px solid var(--purple);
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            flex-shrink: 0;
+            letter-spacing: 0.3px;
+        }
+        .dance-entry { font-size: 0.78rem; color: var(--text-light); margin-bottom: 9px; font-style: italic; }
+
+        .dance-times { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 9px; }
+
+        .time-badge {
+            display: flex; align-items: center; gap: 4px;
+            padding: 4px 9px; border-radius: 6px;
+            font-size: 0.76rem; font-weight: 600;
+        }
+        .time-badge.rehearsal   { background: #E8F7F7; border: 1px solid #A8DEDE; color: var(--teal-dark); }
+        .time-badge.performance { background: #F0EBF8; border: 1px solid #C4A8E0; color: var(--purple-dark); }
+        .time-badge.special-badge { background: #FFF8E7; border: 1px solid #F0D080; color: #7A5500; }
+
+        .dancers-section { padding-top: 8px; border-top: 1px solid var(--light-grey); }
+        .dancers-label { font-size: 0.66rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-light); margin-bottom: 3px; font-weight: 600; }
+        .dancers-list  { font-size: 0.78rem; color: var(--text-mid); line-height: 1.6; }
+
+        /* TIMELINE */
+        .timeline-header-row {
+            display: grid;
+            grid-template-columns: 65px 90px 90px 1fr 1fr;
+            gap: 8px; padding: 6px 12px;
+            font-size: 0.68rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 0.5px;
+            color: var(--text-light); margin-bottom: 4px;
+        }
+        .timeline-row {
+            display: grid;
+            grid-template-columns: 65px 90px 90px 1fr 1fr;
+            gap: 8px; align-items: start;
+            padding: 8px 12px; border-radius: 7px;
+            margin-bottom: 4px; font-size: 0.78rem;
+            border: 1px solid var(--light-grey);
+            background: var(--white);
+        }
+        .timeline-row.break-tl  { background: #FFF8E7; border-color: #F0D080; font-weight: 600; color: #7A5500; }
+        .timeline-row.awards-tl { background: #F3E5F5; border-color: #CE93D8; font-weight: 600; color: #6A1B9A; }
+        .timeline-row.special-tl { background: #FFF8E7; border-color: #F0D080; }
+
+        .timeline-entry { color: var(--purple); font-weight: 700; font-size: 0.76rem; }
+        .timeline-time  { color: var(--teal-dark); font-weight: 600; }
+        .timeline-perf  { color: var(--purple-dark); font-weight: 600; }
+        .timeline-dance { font-weight: 700; color: var(--charcoal); }
+        .timeline-dancers { color: var(--text-mid); font-size: 0.74rem; }
+
+        .award-tl-row {
+            display: grid;
+            grid-template-columns: 65px 90px 90px 1fr 1fr;
+            gap: 8px; align-items: center;
+            padding: 5px 12px; border-radius: 6px;
+            margin-bottom: 3px; font-size: 0.73rem;
+            background: #F3E5F5; border: 1px solid #CE93D8; color: #6A1B9A;
+        }
+
+        .tl-filter-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+
+        .loading { text-align: center; padding: 80px 20px; color: var(--text-light); }
+        .spinner {
+            display: inline-block; width: 32px; height: 32px;
+            border: 3px solid var(--light-grey); border-top-color: var(--teal);
+            border-radius: 50%; animation: spin 0.9s linear infinite; margin-bottom: 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-msg { text-align: center; padding: 40px; color: #C0392B; background: #FEF0EE; border-radius: 10px; }
+        .empty-state { text-align: center; padding: 50px 20px; color: var(--text-light); }
+        .empty-state .empty-icon { font-size: 2.5rem; margin-bottom: 12px; }
+        .empty-state p { font-size: 0.9rem; }
+
+        .page-footer { text-align: center; padding: 16px; color: var(--text-light); font-size: 0.74rem; border-top: 1px solid var(--light-grey); margin-top: 10px; }
+
+        @media (max-width: 650px) {
+            .page-header { padding: 12px 14px; }
+            .header-text h1 { font-size: 1.05rem; }
+            .tabs { padding: 0 10px; }
+            .tab { padding: 10px 12px; font-size: 0.78rem; }
+            .dance-times { flex-direction: column; }
+            .dance-top { flex-direction: column; }
+            .timeline-row { grid-template-columns: 55px 75px 75px 1fr; }
+            .timeline-dancers { display: none; }
+            .timeline-header-row { grid-template-columns: 55px 75px 75px 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="page-header">
+    <div class="logo-mark">🩰</div>
+    <div class="header-text">
+        <h1>ESD Competition Schedule</h1>
+        <p>Evolutions School of Dance · Spring Season 2026</p>
+    </div>
+    <div class="header-right">
+        <span id="db-status" style="font-size:0.72rem;color:var(--text-light);">Loading…</span>
+    </div>
+</div>
+
+<div class="tabs">
+    <div class="tab active" onclick="switchTab('dancer')">🧑 Dancer Search</div>
+    <div class="tab" onclick="switchTab('dance')">🎵 Dance Search</div>
+    <div class="tab" onclick="switchTab('timeline')">📋 Full Timeline</div>
+</div>
+
+<div class="main-content">
+    <div id="app">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>Loading schedule from ESD2026.xlsx…</p>
+        </div>
+    </div>
+</div>
+
+<div class="page-footer">
+    Evolutions School of Dance · Spring Competition Season 2026
+</div>
+
+<script>
+// ─── STATE ──────────────────────────────────────────────────────────────────
+let DB = null;
+let activeTab = 'dancer';
+let selectedTimelineEvent = 'all';
+let dancerEventFilter = {};
+
+// ─── EVENT METADATA ─────────────────────────────────────────────────────────
+const EVENT_META = {
+    'Evolve': {
+        icon: '🌊', cls: 'evolve', accent: '', dayHeaderCls: 'evolve-day', selCls: 'sel-evolve',
+        date: 'April 15–19, 2026', venue: 'Winsport', address: '151 Canada Olympic Rd SW, Calgary'
+    },
+    'Plie Prep': {
+        icon: '💜', cls: 'plie', accent: 'purple-accent', dayHeaderCls: 'plie-day', selCls: 'sel-plie',
+        date: 'April 29 – May 3, 2026', venue: 'The Edge School', address: '33055 Township Rd 250, Rocky View County'
+    },
+    'Danceworks': {
+        icon: '🌟', cls: 'danceworks', accent: 'gold-accent', dayHeaderCls: 'danceworks-day', selCls: 'sel-danceworks',
+        date: 'May 7–10, 2026', venue: 'Westerner Park', address: '4847A 19 St, Red Deer'
+    },
+    'Abstract': {
+        icon: '⭐', cls: 'abstract', accent: 'charcoal-accent', dayHeaderCls: 'abstract-day', selCls: 'sel-abstract',
+        date: 'May 21–24, 2026', venue: 'FC Calvary Field House', address: '125 Field House Dr E, Aldersyde'
+    }
+};
+
+const EVENT_ORDER = ['Evolve', 'Plie Prep', 'Danceworks', 'Abstract'];
+
+const SHEET_NAMES = {
+    'Evolve':     'Evolve April 15 - 19',
+    'Plie Prep':  'Plie Prep April 29 - May 3',
+    'Danceworks': 'Danceworks May 7 - 10',
+    'Abstract':   'Abstract May 21 - 24'
+};
+
+// ─── NAME NORMALIZATION ─────────────────────────────────────────────────────
+function toProperCase(str) {
+    if (!str) return '';
+    return str.trim().split(' ').map(word => {
+        if (!word) return '';
+        return word.split('-').map(w => {
+            if (!w) return '';
+            return w.charAt(0).toUpperCase() + w.slice(1).toLowerCase();
+        }).join('-');
+    }).join(' ');
+}
+
+function parseDancerNames(rawStr) {
+    if (!rawStr) return [];
+    const parts = rawStr.split(',').map(t => t.trim()).filter(t => t.length > 0);
+    const names = [];
+    let i = 0;
+    while (i < parts.length) {
+        const token = parts[i];
+        if (token.includes('&')) {
+            token.split('&').forEach(part => {
+                const name = toProperCase(part.trim());
+                if (name && name.length > 1) names.push(name);
+            });
+            i++;
+        } else if (token.includes(' ')) {
+            names.push(toProperCase(token));
+            i++;
+        } else {
+            if (i + 1 < parts.length && !parts[i+1].includes(' ') && !parts[i+1].includes('&')) {
+                names.push(toProperCase(token + ' ' + parts[i+1]));
+                i += 2;
+            } else {
+                names.push(toProperCase(token));
+                i++;
+            }
+        }
+    }
+    return names.filter(n => n.length > 1);
+}
+
+function toDanceNameUpper(name) {
+    if (!name) return '';
+    return name.toUpperCase().trim();
+}
+
+// ─── HELPERS ────────────────────────────────────────────────────────────────
+function decimalToTime(decimal) {
+    if (!decimal || typeof decimal !== 'number') return null;
+    const totalMinutes = Math.round(decimal * 24 * 60);
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const displayHour = hours % 12 === 0 ? 12 : hours % 12;
+    return displayHour + ':' + minutes.toString().padStart(2, '0') + ' ' + ampm;
+}
+
+function getDanceType(entry) {
+    if (!entry) return '';
+    if (/solo/i.test(entry)) return 'Solo';
+    if (/duo|duet|trio/i.test(entry)) return 'Duet/Trio';
+    if (/small group/i.test(entry)) return 'Small Group';
+    if (/large group/i.test(entry)) return 'Large Group';
+    if (/extended line|line/i.test(entry)) return 'Line';
+    return 'Group';
+}
+
+function getSheetArray(workbook, sheetName) {
+    const sheet = workbook.Sheets[sheetName];
+    if (!sheet) return [];
+    const range = XLSX.utils.decode_range(sheet['!ref']);
+    const data = [];
+    for (let r = range.s.r; r <= range.e.r; r++) {
+        const row = [];
+        for (let c = range.s.c; c <= range.e.c; c++) {
+            const cell = sheet[XLSX.utils.encode_cell({ r, c })];
+            row.push(cell ? cell.v : '');
+        }
+        data.push(row);
+    }
+    return data;
+}
+
+// ─── PARSE EVENT SHEET ──────────────────────────────────────────────────────
+function parseEventSheet(rawData, eventName) {
+    const days = [];
+    let currentDay = null;
+    let currentDayDances = [];
+    let currentDance = null;
+
+    for (let i = 0; i < rawData.length; i++) {
+        const row = rawData[i];
+        const col0 = (row[0] || '').toString().trim();
+        const col1 = row[1];
+        const col2 = (row[2] || '').toString().trim();
+        const col3 = (row[3] || '').toString().trim();
+        const col4 = (row[4] || '').toString().trim();
+        const col5 = (row[5] || '').toString().trim(); // Entry # column
+        const col0Up = col0.toUpperCase();
+
+        // Day header
+        if (/^(MONDAY|TUESDAY|WEDNESDAY|THURSDAY|FRIDAY|SATURDAY|SUNDAY)/.test(col0Up) &&
+            !col0Up.includes('FINALS')) {
+            if (currentDay && currentDayDances.length > 0) {
+                days.push({ day: currentDay, isSpecial: false, dances: currentDayDances });
+            }
+            currentDay = col0;
+            currentDayDances = [];
+            currentDance = null;
+            continue;
+        }
+
+        // PURPOSE SHOWCASE
+        if (col0Up.includes('PURPOSE') || col0Up.includes('SHOWCASE')) {
+            if (currentDay && currentDayDances.length > 0) {
+                days.push({ day: currentDay, isSpecial: false, dances: currentDayDances });
+            }
+            currentDay = col0;
+            currentDayDances = [];
+            currentDance = null;
+
+            if (col2 && col3) {
+                currentDance = {
+                    type: 'dance',
+                    rehearsalTime: null,
+                    performanceTime: decimalToTime(col1),
+                    entry: col2,
+                    danceName: toDanceNameUpper(col3),
+                    dancers: parseDancerNames(col4),
+                    entryNumber: col5,
+                    isSpecial: true
+                };
+                currentDayDances.push(currentDance);
+            }
+            continue;
+        }
+
+        // FINALS section
+        if (col0Up.includes('FINALS')) {
+            if (currentDay && currentDayDances.length > 0) {
+                days.push({ day: currentDay, isSpecial: false, dances: currentDayDances });
+            }
+            currentDay = col0;
+            currentDayDances = [];
+            currentDance = null;
+            continue;
+        }
+
+        // Award description rows
+        if (col0.includes('Overall') || col0.includes('Top 5') || col0.includes('Top 10')) {
+            for (let k = currentDayDances.length - 1; k >= 0; k--) {
+                if (currentDayDances[k].type === 'break' && currentDayDances[k].breakType.includes('AWARDS')) {
+                    if (!currentDayDances[k].awardDescriptions) currentDayDances[k].awardDescriptions = [];
+                    currentDayDances[k].awardDescriptions.push(col0);
+                    break;
+                }
+            }
+            continue;
+        }
+
+        // ADJUDICATION / AWARDS SESSION / FINAL AWARDS
+        if (col0Up.includes('ADJUDICATION') || col0Up.includes('AWARDS SESSION') || col0Up.includes('FINAL AWARDS')) {
+            currentDance = null;
+            const breakType = col0Up.includes('AWARDS SESSION') ? 'AWARDS SESSION' :
+                              col0Up.includes('FINAL AWARDS') ? 'FINAL AWARDS' : 'ADJUDICATION';
+            if (currentDay) {
+                currentDayDances.push({
+                    type: 'break',
+                    breakType: breakType,
+                    time: decimalToTime(col1),
+                    awardDescriptions: []
+                });
+            }
+            continue;
+        }
+
+        // Note/instruction rows with dance data
+        if (col0.startsWith('*') || (col0.toLowerCase().includes('arrive') && col2 && col3)) {
+            if (col2 && col3 && col1) {
+                currentDance = {
+                    type: 'dance',
+                    rehearsalTime: null,
+                    performanceTime: decimalToTime(col1),
+                    entry: col2,
+                    danceName: toDanceNameUpper(col3),
+                    dancers: parseDancerNames(col4),
+                    entryNumber: col5,
+                    isSpecial: false,
+                    hasNote: col0
+                };
+                if (currentDay) currentDayDances.push(currentDance);
+            }
+            continue;
+        }
+
+        // Standard dance entry
+        if (typeof row[0] === 'number' && col2) {
+            currentDance = {
+                type: 'dance',
+                rehearsalTime: decimalToTime(row[0]),
+                performanceTime: decimalToTime(col1),
+                entry: col2,
+                danceName: toDanceNameUpper(col3),
+                dancers: parseDancerNames(col4),
+                entryNumber: col5,
+                isSpecial: false
+            };
+            if (currentDay) currentDayDances.push(currentDance);
+            continue;
+        }
+    }
+
+    if (currentDay && currentDayDances.length > 0) {
+        days.push({
+            day: currentDay,
+            isSpecial: currentDay.toUpperCase().includes('PURPOSE') || currentDay.toUpperCase().includes('SHOWCASE'),
+            dances: currentDayDances
+        });
+    }
+
+    const meta = EVENT_META[eventName];
+    return { eventName, location: meta.venue, address: meta.address, dateRange: meta.date, days };
+}
+
+// ─── BUILD DATABASE ──────────────────────────────────────────────────────────
+function buildDatabase(events) {
+    const dancerMap = {};
+    const danceMap  = {};
+    const allDancerNames = new Set();
+    const allDanceNames  = new Set();
+
+    events.forEach(event => {
+        event.days.forEach(dayObj => {
+            dayObj.dances.forEach(dance => {
+                if (dance.type !== 'dance' || !dance.danceName) return;
+
+                const danceKey = dance.danceName.toLowerCase();
+                if (!danceMap[danceKey]) danceMap[danceKey] = [];
+                danceMap[danceKey].push({ dance, event, day: dayObj.day, isSpecial: dayObj.isSpecial });
+                allDanceNames.add(dance.danceName);
+
+                dance.dancers.forEach(name => {
+                    if (!name || name.length < 2) return;
+                    allDancerNames.add(name);
+                    const key = name.toLowerCase();
+                    if (!dancerMap[key]) dancerMap[key] = [];
+                    dancerMap[key].push({ dance, event, day: dayObj.day, isSpecial: dayObj.isSpecial });
+                });
+            });
+        });
+    });
+
+    return {
+        events,
+        dancerMap,
+        danceMap,
+        allDancerNames: Array.from(allDancerNames).sort(),
+        allDanceNames: Array.from(allDanceNames).sort()
+    };
+}
+
+// ─── LOAD DATA ───────────────────────────────────────────────────────────────
+async function loadData() {
+    try {
+        const response = await fetch('ESD2026.xlsx');
+        if (!response.ok) {
+            throw new Error('Could not load ESD2026.xlsx - HTTP ' + response.status + '. Make sure the file is uploaded to your GitHub repo.');
+        }
+        const arrayBuffer = await response.arrayBuffer();
+        const workbook = XLSX.read(new Uint8Array(arrayBuffer), { type: 'array' });
+
+        const allEvents = EVENT_ORDER.map(evName => {
+            const sheetName = SHEET_NAMES[evName];
+            const rawData = getSheetArray(workbook, sheetName);
+            if (!rawData.length) {
+                console.warn('Sheet not found or empty: ' + sheetName);
+            }
+            return parseEventSheet(rawData, evName);
+        });
+
+        DB = buildDatabase(allEvents);
+
+        allEvents.forEach(ev => {
+            dancerEventFilter[ev.eventName] = true;
+        });
+
+        document.getElementById('db-status').textContent =
+            DB.allDancerNames.length + ' dancers · ' + DB.allDanceNames.length + ' dances';
+
+        renderCurrentTab();
+
+    } catch (err) {
+        document.getElementById('app').innerHTML =
+            '<div class="error-msg">⚠️ Error loading schedule: ' + err.message + '</div>';
+    }
+}
+
+// ─── TAB SWITCHING ───────────────────────────────────────────────────────────
+function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.tab').forEach((el, i) => {
+        el.classList.toggle('active', ['dancer','dance','timeline'][i] === tab);
+    });
+    renderCurrentTab();
+}
+
+function renderCurrentTab() {
+    if (!DB) return;
+    if (activeTab === 'dancer')   renderDancerTab();
+    else if (activeTab === 'dance') renderDanceTab();
+    else renderTimelineTab();
+}
+
+// ─── FORMAT DAY HEADER ───────────────────────────────────────────────────────
+function formatDayHeader(dayStr) {
+    const parts = dayStr.split(' ');
+    const dayName = parts[0];
+    const dayDate = parts.slice(1).join(' ');
+    return { dayName, dayDate };
+}
+
+// ─── EVENT HEADER HTML ───────────────────────────────────────────────────────
+function buildEventHeader(evName, badgeText) {
+    const meta = EVENT_META[evName] || {};
+    return '<div class="event-header ' + (meta.cls || 'evolve') + '">' +
+        '<div class="event-icon">' + (meta.icon || '🎭') + '</div>' +
+        '<div class="event-title-block">' +
+        '<h2>' + evName + '</h2>' +
+        '<div class="event-date">📅 ' + (meta.date || '') + '</div>' +
+        '<div class="event-venue">📍 ' + (meta.venue || '') + '</div>' +
+        '<div class="event-address">🗺️ ' + (meta.address || '') + '</div>' +
+        '</div>' +
+        (badgeText ? '<div class="event-badge">' + badgeText + '</div>' : '') +
+        '</div>';
+}
+
+// ─── EVENT FILTER CHIPS ──────────────────────────────────────────────────────
+function buildEventFilterChips(filterState) {
+    const chips = DB.events.map(ev => {
+        const meta = EVENT_META[ev.eventName] || {};
+        const isOn = filterState[ev.eventName] !== false;
+        const selCls = isOn ? (meta.selCls || 'sel-evolve') : 'unselected';
+        const checkmark = isOn ? '✓' : '';
+        const safeName = ev.eventName.replace(/'/g, "\\'");
+        return '<div class="filter-chip ' + selCls + '" onclick="toggleDancerFilter(\'' + safeName + '\')">' +
+            '<span class="chip-check">' + checkmark + '</span>' +
+            (meta.icon || '') + ' ' + ev.eventName +
+            '</div>';
+    }).join('');
+
+    return '<div class="event-filter-row">' +
+        '<span class="event-filter-label">Show events:</span>' +
+        chips +
+        '<div class="filter-divider"></div>' +
+        '<button class="filter-action-btn" onclick="setAllDancerFilters(true)">Show All</button>' +
+        '<button class="filter-action-btn" onclick="setAllDancerFilters(false)">Hide All</button>' +
+        '</div>';
+}
+
+// ─── DANCER TAB ──────────────────────────────────────────────────────────────
+function renderDancerTab(preserveSearch) {
+    const prevSearch = preserveSearch || '';
+    document.getElementById('app').innerHTML =
+    '<div class="search-section">' +
+        '<div class="search-row">' +
+            '<div class="search-input-wrap" id="dancer-wrap">' +
+                '<span class="search-icon">🔍</span>' +
+                '<input class="search-input" id="dancer-input" type="text"' +
+                    ' placeholder="Search for a dancer…" autocomplete="off"' +
+                    ' oninput="filterDancers(this.value)"' +
+                    ' onfocus="openDD(\'dancer-dd\')"' +
+                    ' onblur="setTimeout(function(){closeDD(\'dancer-dd\')},200)">' +
+                '<div class="search-dropdown" id="dancer-dd"></div>' +
+            '</div>' +
+            '<button class="clear-btn" onclick="renderDancerTab()">Clear</button>' +
+        '</div>' +
+        buildEventFilterChips(dancerEventFilter) +
+    '</div>' +
+    '<div id="dancer-results">' +
+        '<div class="empty-state">' +
+            '<div class="empty-icon">🧑</div>' +
+            '<p>Search for a dancer to see their complete schedule</p>' +
+        '</div>' +
+    '</div>';
+
+    if (prevSearch) {
+        const input = document.getElementById('dancer-input');
+        if (input) {
+            input.value = prevSearch;
+            renderDancerResults(prevSearch);
+        }
+    }
+}
+
+function toggleDancerFilter(evName) {
+    const input = document.getElementById('dancer-input');
+    const currentSearch = input ? input.value : '';
+    dancerEventFilter[evName] = !dancerEventFilter[evName];
+    renderDancerTab(currentSearch);
+}
+
+function setAllDancerFilters(val) {
+    const input = document.getElementById('dancer-input');
+    const currentSearch = input ? input.value : '';
+    DB.events.forEach(ev => { dancerEventFilter[ev.eventName] = val; });
+    renderDancerTab(currentSearch);
+}
+
+function filterDancers(query) {
+    const dd = document.getElementById('dancer-dd');
+    if (!query) { dd.innerHTML = ''; dd.classList.remove('open'); return; }
+    const q = query.toLowerCase();
+    const matches = DB.allDancerNames.filter(n => n.toLowerCase().includes(q)).slice(0, 40);
+    if (!matches.length) {
+        dd.innerHTML = '<div class="dropdown-item" style="color:var(--text-light)">No dancers found</div>';
+        dd.classList.add('open'); return;
+    }
+    dd.innerHTML = matches.map(name => {
+        const safe = name.replace(/'/g, "\\'");
+        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const hi = name.replace(new RegExp('(' + escaped + ')', 'gi'), '<strong>$1</strong>');
+        return '<div class="dropdown-item" onmousedown="selectDancer(\'' + safe + '\')">👤 ' + hi + '</div>';
+    }).join('');
+    dd.classList.add('open');
+}
+
+function openDD(id) { const el = document.getElementById(id); if (el) el.classList.add('open'); }
+function closeDD(id) { const el = document.getElementById(id); if (el) el.classList.remove('open'); }
+
+function selectDancer(name) {
+    const input = document.getElementById('dancer-input');
+    if (input) input.value = name;
+    closeDD('dancer-dd');
+    renderDancerResults(name);
+}
+
+function renderDancerResults(dancerName) {
+    const key = dancerName.toLowerCase();
+    let entries = DB.dancerMap[key] || [];
+
+    if (!entries.length) {
+        const parts = dancerName.toLowerCase().split(' ');
+        const matchKey = Object.keys(DB.dancerMap).find(k => parts.every(p => k.includes(p)));
+        if (matchKey) entries = DB.dancerMap[matchKey];
+    }
+
+    entries = entries.filter(e => dancerEventFilter[e.event.eventName] !== false);
+
+    const byEvent = {};
+    entries.forEach(e => {
+        const evName = e.event.eventName;
+        if (!byEvent[evName]) byEvent[evName] = { event: e.event, days: {} };
+        const dayKey = e.day;
+        if (!byEvent[evName].days[dayKey]) byEvent[evName].days[dayKey] = [];
+        const exists = byEvent[evName].days[dayKey].find(d =>
+            d.dance.danceName === e.dance.danceName && d.dance.rehearsalTime === e.dance.rehearsalTime &&
+            d.dance.performanceTime === e.dance.performanceTime);
+        if (!exists) byEvent[evName].days[dayKey].push(e);
+    });
+
+    const uniqueDances = new Set(entries.map(e =>
+        e.event.eventName + '|' + e.day + '|' + e.dance.danceName + '|' + e.dance.performanceTime));
+
+    let html = '<div class="stats-bar">' +
+        '<div class="stat-card"><div class="stat-number">' + uniqueDances.size + '</div><div class="stat-label">Total Dances</div></div>' +
+        '<div class="stat-card"><div class="stat-number">' + Object.keys(byEvent).length + '</div><div class="stat-label">Events</div></div>' +
+        '</div>';
+
+    EVENT_ORDER.forEach(evName => {
+        if (!byEvent[evName]) return;
+        const { event, days } = byEvent[evName];
+        const meta = EVENT_META[evName] || {};
+        const accent = meta.accent || '';
+        const dayHeaderCls = meta.dayHeaderCls || 'evolve-day';
+        const totalEvDances = Object.values(days).reduce((a, d) => a + d.length, 0);
+
+        html += '<div class="event-section">' +
+            buildEventHeader(evName, totalEvDances + ' dance' + (totalEvDances !== 1 ? 's' : ''));
+
+        Object.keys(days).forEach(dayKey => {
+            const dayEntries = days[dayKey];
+            const isSpecial = dayKey.toUpperCase().includes('PURPOSE') || dayKey.toUpperCase().includes('SHOWCASE');
+            const { dayName, dayDate } = formatDayHeader(dayKey);
+            const dayId = 'day-' + (evName + dayKey).replace(/\W+/g, '-');
+            const headerCls = isSpecial ? 'special-day' : dayHeaderCls;
+
+            html += '<div class="day-section">' +
+                '<div class="day-header ' + headerCls + '" onclick="toggleDay(\'' + dayId + '\')">' +
+                '<span class="day-name">' + (isSpecial ? '⭐ ' + dayKey : '<strong>' + dayName + '</strong>') + '</span>' +
+                (!isSpecial ? '<span class="day-date"><strong>' + dayDate + '</strong></span>' : '') +
+                '<span class="day-count">' + dayEntries.length + ' dance' + (dayEntries.length !== 1 ? 's' : '') + '</span>' +
+                '<span class="day-chevron open" id="' + dayId + '-chevron">▼</span>' +
+                '</div>' +
+                '<div class="day-dances" id="' + dayId + '">';
+
+            dayEntries.forEach(e => {
+                html += renderDanceCard(e.dance, isSpecial ? 'special-accent' : accent, dancerName);
+            });
+
+            html += '</div></div>';
+        });
+
+        html += '</div>';
+    });
+
+    document.getElementById('dancer-results').innerHTML = html;
+}
+
+// ─── DANCE TAB ───────────────────────────────────────────────────────────────
+function renderDanceTab() {
+    document.getElementById('app').innerHTML =
+    '<div class="search-section">' +
+        '<div class="search-row">' +
+            '<div class="search-input-wrap" id="dance-wrap">' +
+                '<span class="search-icon">🔍</span>' +
+                '<input class="search-input" id="dance-input" type="text"' +
+                    ' placeholder="Search for a dance name…" autocomplete="off"' +
+                    ' oninput="filterDances(this.value)"' +
+                    ' onfocus="openDD(\'dance-dd\')"' +
+                    ' onblur="setTimeout(function(){closeDD(\'dance-dd\')},200)">' +
+                '<div class="search-dropdown" id="dance-dd"></div>' +
+            '</div>' +
+            '<button class="clear-btn" onclick="renderDanceTab()">Clear</button>' +
+        '</div>' +
+    '</div>' +
+    '<div id="dance-results">' +
+        '<div class="empty-state">' +
+            '<div class="empty-icon">🎵</div>' +
+            '<p>Search for a dance to see all its performances and participants</p>' +
+        '</div>' +
+    '</div>';
+}
+
+function filterDances(query) {
+    const dd = document.getElementById('dance-dd');
+    if (!query) { dd.innerHTML = ''; dd.classList.remove('open'); return; }
+    const q = query.toLowerCase();
+    const matches = DB.allDanceNames.filter(n => n.toLowerCase().includes(q)).slice(0, 40);
+    if (!matches.length) {
+        dd.innerHTML = '<div class="dropdown-item" style="color:var(--text-light)">No dances found</div>';
+        dd.classList.add('open'); return;
+    }
+    dd.innerHTML = matches.map(name => {
+        const safe = name.replace(/'/g, "\\'");
+        const escaped = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const hi = name.replace(new RegExp('(' + escaped + ')', 'gi'), '<strong>$1</strong>');
+        return '<div class="dropdown-item" onmousedown="selectDance(\'' + safe + '\')">🎵 ' + hi + '</div>';
+    }).join('');
+    dd.classList.add('open');
+}
+
+function selectDance(name) {
+    const input = document.getElementById('dance-input');
+    if (input) input.value = name;
+    closeDD('dance-dd');
+    renderDanceResults(name);
+}
+
+function renderDanceResults(danceName) {
+    const key = danceName.toLowerCase();
+    const entries = DB.danceMap[key] || [];
+
+    if (!entries.length) {
+        document.getElementById('dance-results').innerHTML =
+            '<div class="empty-state"><div class="empty-icon">🔍</div><p>No performances found for "' + danceName + '"</p></div>';
+        return;
+    }
+
+    let html = '<div class="stats-bar">' +
+        '<div class="stat-card"><div class="stat-number">' + entries.length + '</div><div class="stat-label">Performances</div></div>' +
+        '<div class="stat-card"><div class="stat-number">' + new Set(entries.map(e => e.event.eventName)).size + '</div><div class="stat-label">Events</div></div>' +
+        '</div>';
+
+    entries.forEach(e => {
+        const meta = EVENT_META[e.event.eventName] || {};
+        const accent = meta.accent || '';
+        const isSpecial = e.isSpecial;
+        const { dayName, dayDate } = formatDayHeader(e.day);
+
+        html += '<div class="event-section">' +
+            '<div class="event-header ' + (meta.cls || 'evolve') + '">' +
+            '<div class="event-icon">' + (meta.icon || '🎭') + '</div>' +
+            '<div class="event-title-block">' +
+            '<h2>' + e.event.eventName + (isSpecial ? ' <span style="font-size:0.8rem;opacity:0.85">· Purpose Showcase</span>' : '') + '</h2>' +
+            '<div class="event-date">📅 <strong>' + dayName + ' ' + dayDate + '</strong></div>' +
+            '<div class="event-venue">📍 ' + (meta.venue || '') + '</div>' +
+            '<div class="event-address">🗺️ ' + (meta.address || '') + '</div>' +
+            '</div></div>' +
+            '<div class="day-dances">' +
+            renderDanceCard(e.dance, isSpecial ? 'special-accent' : accent, null) +
+            '</div></div>';
+    });
+
+    document.getElementById('dance-results').innerHTML = html;
+}
+
+// ─── TIMELINE TAB ────────────────────────────────────────────────────────────
+function renderTimelineTab() {
+    const tlChips = [
+        '<div class="filter-chip ' + (selectedTimelineEvent === 'all' ? 'sel-evolve' : 'unselected') + '" onclick="setEventFilter(\'all\')">' +
+        '<span class="chip-check">' + (selectedTimelineEvent === 'all' ? '✓' : '') + '</span>All Events</div>'
+    ];
+    DB.events.forEach(ev => {
+        const meta = EVENT_META[ev.eventName] || {};
+        const isActive = selectedTimelineEvent === ev.eventName;
+        const selCls = isActive ? (meta.selCls || 'sel-evolve') : 'unselected';
+        const safeName = ev.eventName.replace(/'/g, "\\'");
+        tlChips.push(
+            '<div class="filter-chip ' + selCls + '" onclick="setEventFilter(\'' + safeName + '\')">' +
+            '<span class="chip-check">' + (isActive ? '✓' : '') + '</span>' +
+            (meta.icon || '') + ' ' + ev.eventName +
+            '</div>'
+        );
+    });
+
+    let html = '<div class="search-section" style="padding:14px 18px;">' +
+        '<div class="tl-filter-row">' +
+        '<span class="event-filter-label">Filter by event:</span>' +
+        tlChips.join('') +
+        '</div></div>';
+
+    DB.events.forEach(event => {
+        if (selectedTimelineEvent !== 'all' && event.eventName !== selectedTimelineEvent) return;
+
+        const meta = EVENT_META[event.eventName] || {};
+        const isEvolve = event.eventName === 'Evolve';
+        const totalDances = event.days.reduce((a, d) => a + d.dances.filter(x => x.type === 'dance').length, 0);
+
+        html += '<div class="event-section">' +
+            buildEventHeader(event.eventName, totalDances + ' dances');
+
+        event.days.forEach(dayObj => {
+            const isSpecial = dayObj.isSpecial;
+            const { dayName, dayDate } = formatDayHeader(dayObj.day);
+            const dayId = 'tl-' + (event.eventName + dayObj.day).replace(/\W+/g, '-');
+            const headerCls = isSpecial ? 'special-day' : (meta.dayHeaderCls || 'evolve-day');
+            const danceCount = dayObj.dances.filter(d => d.type === 'dance').length;
+
+            html += '<div class="day-section">' +
+                '<div class="day-header ' + headerCls + '" onclick="toggleDay(\'' + dayId + '\')">' +
+                '<span class="day-name">' + (isSpecial ? '⭐ ' + dayObj.day : '<strong>' + dayName + '</strong>') + '</span>' +
+                (!isSpecial ? '<span class="day-date"><strong>' + dayDate + '</strong></span>' : '') +
+                '<span class="day-count">' + danceCount + ' dance' + (danceCount !== 1 ? 's' : '') + '</span>' +
+                '<span class="day-chevron" id="' + dayId + '-chevron">▼</span>' +
+                '</div>' +
+                '<div class="day-dances" id="' + dayId + '" style="display:none;">' +
+                '<div class="timeline-header-row">' +
+                '<span>Entry #</span><span>Rehearsal</span><span>Performance</span><span>Dance / Entry</span><span>Dancers</span>' +
+                '</div>';
+
+            dayObj.dances.forEach(item => {
+                if (item.type === 'break') {
+                    const isAwards = item.breakType.includes('AWARDS') || item.breakType.includes('FINAL');
+                    const breakIcon = isAwards ? '🏆' : '⏸️';
+                    const rowCls = isAwards ? 'awards-tl' : 'break-tl';
+
+                    html += '<div class="timeline-row ' + rowCls + '">' +
+                        '<span></span>' +
+                        '<span></span>' +
+                        '<span style="font-weight:700">' + (item.time || '') + '</span>' +
+                        '<span>' + breakIcon + ' ' + item.breakType + '</span>' +
+                        '<span></span>' +
+                        '</div>';
+
+                    if (isEvolve && item.awardDescriptions && item.awardDescriptions.length > 0) {
+                        item.awardDescriptions.forEach(desc => {
+                            html += '<div class="award-tl-row">' +
+                                '<span></span><span></span><span></span>' +
+                                '<span style="font-style:italic;">🎖️ ' + desc + '</span>' +
+                                '<span></span>' +
+                                '</div>';
+                        });
+                    }
+
+                } else if (item.type === 'dance') {
+                    const allDancers = item.dancers.join(', ');
+                    const rowCls = isSpecial ? 'special-tl' : '';
+                    const entryNum = item.entryNumber ? '#' + item.entryNumber : '—';
+                    html += '<div class="timeline-row ' + rowCls + '">' +
+                        '<span class="timeline-entry">' + entryNum + '</span>' +
+                        '<span class="timeline-time">' + (item.rehearsalTime || (isSpecial ? 'Showcase' : '—')) + '</span>' +
+                        '<span class="timeline-perf">' + (item.performanceTime || '—') + '</span>' +
+                        '<span class="timeline-dance">' + item.danceName +
+                        '<br><span style="font-size:0.7rem;font-weight:400;color:var(--text-light)">' + item.entry + '</span></span>' +
+                        '<span class="timeline-dancers">' + allDancers + '</span>' +
+                        '</div>';
+                }
+            });
+
+            html += '</div></div>';
+        });
+
+        html += '</div>';
+    });
+
+    document.getElementById('app').innerHTML = html;
+}
+
+function setEventFilter(evName) {
+    selectedTimelineEvent = evName;
+    renderTimelineTab();
+}
+
+// ─── DANCE CARD RENDERER ─────────────────────────────────────────────────────
+function renderDanceCard(dance, accentClass, highlightDancer) {
+    const danceType = getDanceType(dance.entry);
+    const allDancers = dance.dancers.join(', ');
+
+    let dancersHtml = allDancers;
+    if (highlightDancer) {
+        const escaped = highlightDancer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp('(' + escaped + ')', 'gi');
+        dancersHtml = allDancers.replace(regex, '<strong style="color:var(--teal-dark)">$1</strong>');
+    }
+
+    const rehearsalBadge = dance.rehearsalTime
+        ? '<div class="time-badge rehearsal">⏰ Rehearsal: <strong>' + dance.rehearsalTime + '</strong></div>'
+        : (dance.isSpecial ? '<div class="time-badge special-badge">⭐ Purpose Showcase</div>' : '');
+
+    const entryBadge = dance.entryNumber
+        ? '<div class="entry-number-badge">#' + dance.entryNumber + '</div>'
+        : '';
+
+    return '<div class="dance-card ' + accentClass + '">' +
+        '<div class="dance-top">' +
+        '<div class="dance-name">🎵 ' + dance.danceName + '</div>' +
+        '<div class="dance-badges">' +
+        entryBadge +
+        (danceType ? '<div class="dance-type-pill">' + danceType + '</div>' : '') +
+        '</div>' +
+        '</div>' +
+        '<div class="dance-entry">' + dance.entry + '</div>' +
+        '<div class="dance-times">' +
+        rehearsalBadge +
+        '<div class="time-badge performance">🎭 Performance: <strong>' + (dance.performanceTime || '—') + '</strong></div>' +
+        '</div>' +
+        '<div class="dancers-section">' +
+        '<div class="dancers-label">Dancers</div>' +
+        '<div class="dancers-list">' + dancersHtml + '</div>' +
+        '</div>' +
+        '</div>';
+}
+
+// ─── TOGGLE DAY ──────────────────────────────────────────────────────────────
+window.toggleDay = function(id) {
+    const el = document.getElementById(id);
+    const chevron = document.getElementById(id + '-chevron');
+    if (!el) return;
+    const isOpen = el.style.display !== 'none';
+    el.style.display = isOpen ? 'none' : 'block';
+    if (chevron) chevron.classList.toggle('open', !isOpen);
+};
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+loadData();
+</script>
+</body>
+</html>
